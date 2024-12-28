@@ -111,16 +111,29 @@ export class HousingService {
     },
   ];
   // Método para obtener todas las ubicaciones
-  getAllHousingLocations(): HousingLocation[] {
-    return this.housingLocationList;
+  // getAllHousingLocations(): HousingLocation[] {
+  //   return this.housingLocationList;
+  // }
+
+  // // Método para obtener una ubicación por su ID
+  // getHousingLocationById(id: number): HousingLocation | undefined {
+  //   return this.housingLocationList.find(
+  //     (housingLocation) => housingLocation.id === id
+  //   );
+  // }
+  //Con peticiones http
+  url = 'http://localhost:3000/locations';
+  async getAllHousingLocations(): Promise<HousingLocation[]> {
+    const data = await fetch(this.url);
+    return (await data.json()) ?? [];
+  }
+  async getHousingLocationById(
+    id: number
+  ): Promise<HousingLocation | undefined> {
+    const data = await fetch(`${this.url}/${id}`);
+    return (await data.json()) ?? {};
   }
 
-  // Método para obtener una ubicación por su ID
-  getHousingLocationById(id: number): HousingLocation | undefined {
-    return this.housingLocationList.find(
-      (housingLocation) => housingLocation.id === id
-    );
-  }
   submitApplication(firstName: string, lastName: string, email: string) {
     console.log(
       `firstName: ${firstName}, lastName: ${lastName}, email: ${email}.`

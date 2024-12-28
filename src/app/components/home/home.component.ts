@@ -16,8 +16,22 @@ export class HomeComponent {
   filteredLocationList: HousingLocation[] = [];
 
   constructor() {
-    this.housingLocationList = this.housingService.getAllHousingLocations();
-    this.filteredLocationList = this.housingLocationList;
+    // this.housingLocationList = this.housingService.getAllHousingLocations();
+    // this.filteredLocationList = this.housingLocationList;
+    //con http
+    this.housingService
+      .getAllHousingLocations()
+      .then((housingLocationList: HousingLocation[]) => {
+        this.housingLocationList = housingLocationList;
+        this.filteredLocationList = housingLocationList;
+      });
+
+    this.housingService
+      .getAllHousingLocations()
+      .then((housingLocationList: HousingLocation[]) => {
+        this.housingLocationList = housingLocationList;
+        this.filteredLocationList = housingLocationList;
+      });
   }
   filterResults(searchTerm: string) {
     if (!searchTerm) {
@@ -26,7 +40,7 @@ export class HomeComponent {
     }
     this.filteredLocationList = this.housingLocationList.filter(
       (housingLocation) =>
-        housingLocation.city.toLowerCase().includes(searchTerm.toLowerCase())
+        housingLocation?.city.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }
 }
